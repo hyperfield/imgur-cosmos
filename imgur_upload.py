@@ -2,7 +2,7 @@
 
 from datetime import datetime
 import argparse
-from auth import authenticate  # Pull authentication (see auth.py)
+from helpers import authenticate  # Pull authentication (see auth.py)
 from os import listdir
 from pathlib import Path
 from os import path
@@ -27,7 +27,7 @@ def upload_img(client, img_path, name="Space", title="Space picture"):
 
 
 def main():
-    default_folder_paths = ["images/hubble/", "images/spacex/"]
+    default_folder_paths = "images/hubble/,images/spacex/"
     parser = argparse.ArgumentParser(
         description="""This script uploads image files to Imgur."""
         )

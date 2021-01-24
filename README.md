@@ -48,9 +48,9 @@ The same principles apply to the scripts `fetch_hubble.py` and `imgur_upload`, b
     ./fetch_hubble.py spacecraft
     ./fetch_hubble.py news
 
-The following are some of the available picture categories to fetch: `news`, `holiday_cards` (the default category in the script), `spacecraft`, `printshop`, `stsci_gallery`.
+The following are some of the available picture categories to fetch: `news`, `holiday_cards` (the default category in the script), `spacecraft`, `printshop`, `stsci_gallery`. Make sure there is no space after the comma if you enter more than one folder to upload as a command line argument to `imgur_upload.py`.
 
-    ./imgur_upload.py images/hubble, images/hubble/adjusted
+    ./imgur_upload.py images/hubble,images/hubble/adjusted
     ./imgur_upload.py ~/Pictures/Space
 
 ### Project Goals
