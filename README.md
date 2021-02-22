@@ -29,8 +29,8 @@ Now put the  `client-id` and `client-secret` that you just got into a newly crea
 
 Example of `.env`:
 
-IMGUR_CLIENT_ID = '09f0d0001d54jkr'
-IMGUR_CLIENT_SEC = 'b83ddc23f32b1crb45ef1fe6a92af6ca24e5db83'
+    IMGUR_CLIENT_ID='09f0d0001d54jkr'
+    IMGUR_CLIENT_SEC='b83ddc23f32b1crb45ef1fe6a92af6ca24e5db83'
 
 
 ## Launching the scripts
@@ -39,7 +39,11 @@ To download Hubble images by category:
 
     python fetch_spacex.py
 
-If you make the file executable by `chmod +x fetch_spacex.py` then you can also launch directly, e.g.:
+If you make the file executable by
+
+    chmod +x fetch_spacex.py
+
+then you can also launch directly, e.g.:
 
     ./fetch_spacex.py
 

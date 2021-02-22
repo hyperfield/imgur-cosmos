@@ -16,7 +16,6 @@ def fetch_img_versions(img_id):
 
 
 def fetch_hubble_picture_by_id(img_id, folder="images/hubble"):
-    urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
     api_base_url = "http://hubblesite.org/api/v3/image/"
     response = requests.get(f"{api_base_url}{img_id}")
     try:
@@ -45,6 +44,7 @@ def fetch_hubble_pictures_by_category(collection_name="holiday_cards"):
 
 
 def main():
+    urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
     parser = argparse.ArgumentParser(
         description="""This script fetches image files from the Hubble website
                        to your computer."""

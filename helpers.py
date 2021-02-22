@@ -1,26 +1,23 @@
 from pathlib import Path
-from os import path, getenv
+from os import path
 import requests
-import urllib3
 from PIL import Image
 from PIL import UnidentifiedImageError
-from dotenv import load_dotenv
 from imgurpython import ImgurClient
 
 
 def get_filename_ext(url):
-    parsed = url.split("/")[-1].split(".")
-    return (parsed[-2], parsed[-1])
+    ext = path.splitext(url)[-1][1:]
+    filename = path.basename(url).split('.')[0]
+    return filename, ext
 
 
 def fetch_image(img_url, file_name, folder='images/'):
-    urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
     file_path = path.join(folder, file_name)
     if not Path(file_path).is_file():
         Path(folder).mkdir(parents=True, exist_ok=True)
         response_img = requests.get(img_url, verify=False)
         response_img.raise_for_status()
-        print(file_path)
         with open(file_path, 'wb') as file:
             file.write(response_img.content)
     else:
@@ -56,27 +53,17 @@ def adjust_picture(picture_file_path):
         print(f"{filename} does not seem to be an image file")
 
 
-def authenticate():
-    load_dotenv()
-    client_id = getenv('IMGUR_CLIENT_ID')
-    client_secret = getenv('IMGUR_CLIENT_SEC')
+def authenticate(client_id, client_secret):
 
     client = ImgurClient(client_id, client_secret)
-
-    # Authorization flow, pin example (see docs for other auth types)
     authorization_url = client.get_auth_url('pin')
 
     print("Go to the following URL: {0}".format(authorization_url))
 
-    # Read in the pin, handle Python 2 or 3 here.
     pin = input("Enter pin code: ")
 
-    # ... redirect user to `authorization_url`, obtain pin (or code or token)
     credentials = client.authorize(pin, 'pin')
-    client.set_user_auth(credentials['access_token'], credentials['refresh_token'])
-
-    print("Authentication successful! Here are the details:")
-    print("   Access token:  {0}".format(credentials['access_token']))
-    print("   Refresh token: {0}".format(credentials['refresh_token']))
+    client.set_user_auth(credentials['access_token'],
+                         credentials['refresh_token'])
 
     return client

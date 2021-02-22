@@ -7,6 +7,8 @@ from os import listdir
 from pathlib import Path
 from os import path
 import imgurpython
+from os import getenv
+from dotenv import load_dotenv
 
 
 def upload_img(client, img_path, name="Space", title="Space picture"):
@@ -37,23 +39,29 @@ def main():
     args.folder_paths = [item.strip() for item in args.folder_paths.split(',')]
     file_listings = {folder: listdir(folder) for folder in args.folder_paths}
 
-    client = authenticate()
+    load_dotenv()
+    client_id = getenv('IMGUR_CLIENT_ID')
+    client_secret = getenv('IMGUR_CLIENT_SEC')
+
+    client = authenticate(client_id, client_secret)
 
     for folder, file_listing in file_listings.items():
-        for file in file_listing:
-            file_path = path.join(f"{folder}", f"{file}")
+        for filename in file_listing:
+            file_path = path.join(f"{folder}", f"{filename}")
             if Path(file_path).is_file():
                 try:
-                    if "spacex" in file:
+                    if "spacex" in filename:
                         upload_img(client, file_path,
                                    name="SpaceX",
                                    title="SpaceX image")
-                    else:
-                        upload_img(client, file_path,
-                                   name="Hubble",
-                                   title="Hubble image")
+                        continue
+
+                    upload_img(client, file_path,
+                               name="Hubble",
+                               title="Hubble image")
+
                 except imgurpython.helpers.error.ImgurClientError:
-                    print(f"Could not upload {file}, some Imgur error occurred.")
+                    print(f"Could not upload {filename}, some Imgur error occurred.")
 
 
 if __name__ == '__main__':
