@@ -6,15 +6,6 @@ from helpers import get_filename_ext, fetch_image, adjust_picture
 import argparse
 
 
-def fetch_img_versions(img_id):
-    api_url = "http://hubblesite.org/api/v3/image"
-    response = requests.get(f'{api_url}/{img_id}')
-    response.raise_for_status()
-    img_list = response.json()['image_files']
-    for img in img_list:
-        print(f'https:{img["file_url"]}')
-
-
 def fetch_hubble_picture_by_id(img_id, folder="images/hubble"):
     api_base_url = "http://hubblesite.org/api/v3/image/"
     response = requests.get(f"{api_base_url}{img_id}")
