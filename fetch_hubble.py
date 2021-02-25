@@ -2,7 +2,7 @@
 
 import requests
 import urllib3
-from helpers import get_filename_ext, fetch_image, adjust_picture
+from helpers import get_filename_ext, fetch_image
 import argparse
 
 
@@ -15,7 +15,7 @@ def fetch_hubble_picture_by_id(img_id, folder="images/hubble"):
         picture = response.json()['image_files'][-1]['file_url']
     img_url = f"http:{picture}"
     file_ext = get_filename_ext(img_url)[1]
-    filename = f"{img_id}.{file_ext}"
+    filename = f"{img_id}{file_ext}"
     fetch_image(img_url, filename, folder)
 
     return filename
@@ -44,10 +44,7 @@ def main():
                         help='The name of the photo set at Hubble.',
                         nargs='?', type=str)
     args = parser.parse_args()
-    folder = 'images/hubble'
-    img_files = fetch_hubble_pictures_by_category(args.collection_name)
-    for img_file in img_files:
-        adjust_picture(f"{folder}/{img_file}")
+    fetch_hubble_pictures_by_category(args.collection_name)
 
 
 if __name__ == "__main__":

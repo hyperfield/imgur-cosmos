@@ -7,9 +7,8 @@ from imgurpython import ImgurClient
 
 
 def get_filename_ext(url):
-    ext = path.splitext(url)[-1][1:]
-    filename = path.basename(url).split('.')[0]
-    return filename, ext
+    filename_ext = path.splitext(path.basename(url))
+    return filename_ext
 
 
 def fetch_image(img_url, file_name, folder='images/'):
@@ -35,16 +34,13 @@ def adjust_picture(picture_file_path):
         file_save_path = path.join(save_path, f'{filename_tuple[0]}.jpg')
         image_size = image.size
         larger_side_index = image_size[0] < image_size[1]
-        smaller_side_index = not larger_side_index
         if image.mode == "RGBA":
             print(f"Convertitng {filename} mode to RGB from RGBA")
             image = image.convert("RGB")
         if image_size[larger_side_index] > 1800:
             print(f"Resizing {filename}, saving as JPEG\n")
-            new_size_list = [int(1800/image_size[larger_side_index] *
-                             image_size[smaller_side_index])]
-            new_size_list.insert(larger_side_index, 1800)
-            image.thumbnail(new_size_list)
+            image.thumbnail([image_size[larger_side_index],
+                            image_size[larger_side_index]])
             image.save(file_save_path, format="JPEG")
         elif image.format != "JPEG":
             print(f"Converting {filename} to JPEG")

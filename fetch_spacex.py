@@ -10,8 +10,7 @@ def fetch_spacex_last_launch():
     pictures = response.json()['links']['flickr']['original']
     for picture_number, picture in enumerate(pictures):
         file_name = f"spacex{picture_number+1}.jpg"
-        file_path = fetch_image(picture, file_name, 'images/spacex')
-        adjust_picture(file_path)
+        fetch_image(picture, file_name, 'images/spacex')
 
 
 def main():

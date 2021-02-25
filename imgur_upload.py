@@ -2,7 +2,7 @@
 
 from datetime import datetime
 import argparse
-from helpers import authenticate  # Pull authentication (see auth.py)
+from helpers import authenticate, adjust_picture
 from os import listdir
 from pathlib import Path
 from os import path
@@ -22,7 +22,7 @@ def upload_img(client, img_path, name="Space", title="Space picture"):
         'description': 'A space image uploaded on {0}'.format(datetime.now())
     }
 
-    print(f"\nUploading image {img_path}...")
+    print(f"Uploading image {img_path}...")
     image = client.upload_from_path(img_path, config=config, anon=False)
 
     return image
@@ -49,6 +49,8 @@ def main():
         for filename in file_listing:
             file_path = path.join(f"{folder}", f"{filename}")
             if Path(file_path).is_file():
+                print()
+                adjust_picture(file_path)
                 try:
                     if "spacex" in filename:
                         upload_img(client, file_path,
