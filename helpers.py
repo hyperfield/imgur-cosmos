@@ -6,7 +6,7 @@ from PIL import UnidentifiedImageError
 from imgurpython import ImgurClient
 
 
-def get_filename_ext(url):
+def extract_filename_ext(url):
     filename_ext = path.splitext(path.basename(url))
     return filename_ext
 
@@ -25,7 +25,8 @@ def fetch_image(img_url, file_name, folder='images/'):
 
 
 def adjust_picture(picture_file_path):
-    filename_tuple = get_filename_ext(picture_file_path)
+    max_side_px = 1800
+    filename_tuple = extract_filename_ext(picture_file_path)
     filename = f"{filename_tuple[0]}.{filename_tuple[1]}"
     try:
         image = Image.open(picture_file_path)
@@ -37,7 +38,7 @@ def adjust_picture(picture_file_path):
         if image.mode == "RGBA":
             print(f"Convertitng {filename} mode to RGB from RGBA")
             image = image.convert("RGB")
-        if image_size[larger_side_index] > 1800:
+        if image_size[larger_side_index] > max_side_px:
             print(f"Resizing {filename}, saving as JPEG\n")
             image.thumbnail([image_size[larger_side_index],
                             image_size[larger_side_index]])
