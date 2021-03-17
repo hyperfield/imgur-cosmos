@@ -9,6 +9,11 @@ from os import path
 import imgurpython
 from os import getenv
 from dotenv import load_dotenv
+import logging
+
+
+logging.basicConfig(format='%(asctime)s - %(message)s', datefmt='%d-%b-%y %H:%M:%S',
+                    filename="info.log", level=logging.INFO)
 
 
 def upload_img(client, img_path, name="Space", title="Space picture"):
@@ -22,7 +27,7 @@ def upload_img(client, img_path, name="Space", title="Space picture"):
         'description': 'A space image uploaded on {0}'.format(datetime.now())
     }
 
-    print(f"Uploading image {img_path}...")
+    logging.info(f"upload_img(): Uploading image {img_path}...")
     image = client.upload_from_path(img_path, config=config, anon=False)
 
     return image
@@ -48,22 +53,23 @@ def main():
     for folder, file_listing in file_listings.items():
         for filename in file_listing:
             file_path = path.join(f"{folder}", f"{filename}")
-            if Path(file_path).is_file():
-                print()
-                adjust_picture(file_path)
-                try:
-                    if "spacex" in filename:
-                        upload_img(client, file_path,
-                                   name="SpaceX",
-                                   title="SpaceX image")
-                        continue
+            if not Path(file_path).is_file():
+                continue
 
+            adjust_picture(file_path)
+            try:
+                if "spacex" in filename:
                     upload_img(client, file_path,
-                               name="Hubble",
-                               title="Hubble image")
+                                name="SpaceX",
+                                title="SpaceX image")
+                    continue
 
-                except imgurpython.helpers.error.ImgurClientError:
-                    print(f"Could not upload {filename}, some Imgur error occurred.")
+                upload_img(client, file_path,
+                            name="Hubble",
+                            title="Hubble image")
+
+            except imgurpython.helpers.error.ImgurClientError:
+                logging.info(f"imgur_upload.py: main(): Could not upload {filename}, some Imgur error occurred.")
 
 
 if __name__ == '__main__':
