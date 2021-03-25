@@ -1,16 +1,13 @@
 #!/usr/bin/env python3
 
-from pathlib import Path
-import requests
-from requests.models import HTTPError
-import urllib3
-from helpers import extract_file_ext, fetch_image
 import argparse
 import logging
+from pathlib import Path
+from requests.models import HTTPError
+import requests
+import urllib3
 
-
-logging.basicConfig(format='%(asctime)s - %(message)s', datefmt='%d-%b-%y %H:%M:%S',
-                    filename="info.log", level=logging.INFO)
+from helpers import extract_file_ext, fetch_image
 
 
 def fetch_hubble_picture_by_id(img_id, folder="images/hubble"):
@@ -52,6 +49,9 @@ def fetch_hubble_pictures_by_category(collection_name="holiday_cards"):
 
 
 def main():
+    logging.basicConfig(format='%(asctime)s - %(message)s',
+                        datefmt='%d-%b-%y %H:%M:%S',
+                        filename="info.log", level=logging.INFO)
     urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
     parser = argparse.ArgumentParser(
         description="""This script fetches image files from the Hubble website

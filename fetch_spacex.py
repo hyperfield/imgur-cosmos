@@ -2,6 +2,7 @@
 
 import requests
 from requests.models import HTTPError
+
 from helpers import fetch_image
 
 

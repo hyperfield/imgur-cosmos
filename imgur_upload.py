@@ -1,19 +1,16 @@
 #!/usr/bin/env python3
 
-from datetime import datetime
 import argparse
-from helpers import authenticate, adjust_picture
-from os import listdir
-from pathlib import Path
-from os import path
-import imgurpython
+from datetime import datetime
 from os import getenv
+from os import listdir
 from dotenv import load_dotenv
 import logging
+from os import path
+from pathlib import Path
 
-
-logging.basicConfig(format='%(asctime)s - %(message)s', datefmt='%d-%b-%y %H:%M:%S',
-                    filename="info.log", level=logging.INFO)
+from helpers import authenticate, adjust_picture
+import imgurpython
 
 
 def upload_img(client, img_path, name="Space", title="Space picture"):
@@ -34,11 +31,15 @@ def upload_img(client, img_path, name="Space", title="Space picture"):
 
 
 def main():
+    logging.basicConfig(format='%(asctime)s - %(message)s',
+                        datefmt='%d-%b-%y %H:%M:%S',
+                        filename="info.log", level=logging.INFO)
     default_folder_paths = "images/hubble/,images/spacex/"
     parser = argparse.ArgumentParser(
         description="""This script uploads image files to Imgur."""
         )
-    parser.add_argument('folder_paths', help='Comma-delimited list of folder(s) with image files to upload',
+    parser.add_argument('folder_paths',
+                        help='Comma-delimited list of folder(s) with image files to upload',
                         default=default_folder_paths, nargs='?', type=str)
     args = parser.parse_args()
     args.folder_paths = [item.strip() for item in args.folder_paths.split(',')]
