@@ -12,8 +12,8 @@ def fetch_spacex_last_launch():
         response = requests.get(api_url)
         response.raise_for_status()
         pictures = response.json()['links']['flickr']['original']
-        for picture_number, picture in enumerate(pictures):
-            file_name = f"spacex{picture_number+1}.jpg"
+        for picture_number, picture in enumerate(pictures, start=1):
+            file_name = f"spacex{picture_number}.jpg"
             fetch_image(picture, file_name, 'images/spacex')
     except HTTPError:
         print(f"Error {response.status_code}")
