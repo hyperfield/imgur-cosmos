@@ -19,11 +19,11 @@ def fetch_hubble_picture_by_id(img_id, folder="images/hubble"):
             picture = response.json()['image_files'][-2]['file_url']
         except IndexError:
             picture = response.json()['image_files'][-1]['file_url']
-            img_url = f"http:{picture}"
-            file_ext = extract_file_ext(img_url)[1]
-            filename = f"{img_id}{file_ext}"
-            fetch_image(img_url, filename, folder)
-            return filename
+        img_url = f"http:{picture}"
+        file_ext = extract_file_ext(img_url)[1]
+        filename = f"{img_id}{file_ext}"
+        fetch_image(img_url, filename, folder)
+        return filename
 
     except HTTPError:
         print(f"Error {response.status_code}")
