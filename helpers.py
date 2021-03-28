@@ -32,7 +32,7 @@ def adjust_picture(picture_file_path):
     filename = f"{filename_ext[0]}.{filename_ext[1]}"
     try:
         image = Image.open(picture_file_path)
-        save_path = picture_file_path[0: -len(filename)] + "adjusted"
+        save_path = f"{picture_file_path[0: -len(filename)]} adjusted"
         Path(save_path).mkdir(parents=True, exist_ok=True)
         file_save_path = path.join(save_path, f'{filename_ext[0]}.jpg')
         image_size = image.size
