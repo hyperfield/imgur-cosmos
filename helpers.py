@@ -28,27 +28,27 @@ def fetch_image(img_url, file_name, folder='images/'):
 
 def adjust_picture(picture_file_path):
     max_side_px = 1800
-    filename_ext = extract_filename_ext(picture_file_path)
-    filename = f"{filename_ext[0]}.{filename_ext[1]}"
+    file_name, file_extention = extract_filename_ext(picture_file_path)
+    file_name_and_ext = f"{file_name}.{file_extention}"
     try:
         image = Image.open(picture_file_path)
-        save_path = f"{picture_file_path[0: -len(filename)]} adjusted"
+        save_path = f"{picture_file_path[0: -len(file_name_and_ext)]} adjusted"
         Path(save_path).mkdir(parents=True, exist_ok=True)
-        file_save_path = path.join(save_path, f'{filename_ext[0]}.jpg')
+        file_save_path = path.join(save_path, f'{file_name}.jpg')
         image_size = image.size
         larger_side_index = image_size[0] < image_size[1]
         if image.mode == "RGBA":
-            logging.info(f"adjust_picture(): Convertitng {filename} mode to RGB from RGBA")
+            logging.info(f"adjust_picture(): Convertitng {file_name_and_ext} mode to RGB from RGBA")
             image = image.convert("RGB")
         if image_size[larger_side_index] > max_side_px:
-            logging.info(f"adjust_picture(): Resizing {filename}, saving as JPEG")
+            logging.info(f"adjust_picture(): Resizing {file_name_and_ext}, saving as JPEG")
             image.thumbnail([max_side_px, max_side_px])
             image.save(file_save_path, format="JPEG")
         elif image.format != "JPEG":
-            logging.info(f"adjust_picture(): Converting {filename} to JPEG")
+            logging.info(f"adjust_picture(): Converting {file_name_and_ext} to JPEG")
             image.save(file_save_path, format="JPEG")
     except UnidentifiedImageError:
-        logging.info(f"adjust_picture(): {filename} does not seem to be an image file")
+        logging.info(f"adjust_picture(): {file_name_and_ext} does not seem to be an image file")
 
 
 def authenticate(client_id, client_secret):

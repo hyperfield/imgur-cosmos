@@ -30,8 +30,8 @@ def fetch_hubble_pictures_by_category(collection_name="holiday_cards"):
     payload = {"collection_name": collection_name}
     response = requests.get(url_template, params=payload)
     response.raise_for_status()
-    json_img_ids = response.json()
-    img_ids = [json_img_id['id'] for json_img_id in json_img_ids]
+    img_ids_and_names = response.json()
+    img_ids = [json_img_id['id'] for json_img_id in img_ids_and_names]
     files = []
     for img_id in img_ids:
         logging.info(f'fetch_hubble_pictures_by_category(): Fetching image id {img_id}...')
