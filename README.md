@@ -56,7 +56,3 @@ The following are some of the available picture categories to fetch: `news`, `ho
 
     ./imgur_upload.py images/hubble,images/hubble/adjusted
     ./imgur_upload.py ~/Pictures/Space
-
-### Project Goals
-
-The code is written for educational purposes on online-course for web-developers [dvmn.org](https://dvmn.org/).
